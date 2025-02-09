@@ -2,37 +2,41 @@
 pragma solidity ^0.8.0;
 
 contract PatientRecords {
+    // Define the structure of a patient record
     struct PatientRecord {
         string name;
         uint age;
         string diagnosis;
         string treatment;
-        bool exists; // flag to check if the record exists
+        bool exists; // Flag to check if the record exists
     }
 
+    // Mapping to store patient records by their address
     mapping(address => PatientRecord) private patientRecords;
+    // Mapping to store authorized access for each patient
     mapping(address => address[]) private authorizedAccess;
 
     address public owner;
 
-    // Declare events
+    // Declare events to log key actions
     event RecordStored(address indexed patientAddress, string name);
     event AccessAuthorized(address indexed patientAddress, address indexed authorizedPerson);
     event AccessRevoked(address indexed patientAddress, address indexed revokedPerson);
     event RecordViewed(address indexed viewer, address indexed patientAddress);
     event RecordDeleted(address indexed patientAddress);
 
+    // Set the contract owner to the address that deploys the contract
     constructor() {
         owner = msg.sender; // The contract deployer is the owner
     }
 
-    // Modifier to ensure only the patient or authorized person can access the record
+    // Modifier to ensure that only the patient or authorized person can access the record
     modifier onlyOwnerOrAuthorized(address patient) {
         require(msg.sender == patient || isAuthorized(patient), "Not authorized");
         _;
     }
 
-    // Store a patient's record
+    // Store a patient's record (only the owner can store records)
     function storeRecord(
         address patientAddress,
         string memory name,
@@ -42,20 +46,25 @@ contract PatientRecords {
     ) public {
         require(msg.sender == owner, "Only the owner can store records");
 
-        patientRecords[patientAddress] = PatientRecord(name, age, diagnosis, treatment, true); // Shorthand initialization
+        // Store the patient's record
+        patientRecords[patientAddress] = PatientRecord(name, age, diagnosis, treatment, true); 
 
-        emit RecordStored(patientAddress, name); // Emit event on record store
+        // Emit an event to log the record storage
+        emit RecordStored(patientAddress, name);
     }
 
-    // Authorize access to the record
+    // Authorize another person to access the patient's record
     function authorizeAccess(address patient, address authorizedPerson) public {
         require(msg.sender == patient, "Only the patient can authorize access");
+        
+        // Add the authorized person to the list of authorized addresses
         authorizedAccess[patient].push(authorizedPerson);
 
-        emit AccessAuthorized(patient, authorizedPerson); // Emit event on access authorization
+        // Emit an event to log the authorization
+        emit AccessAuthorized(patient, authorizedPerson);
     }
 
-    // Revoke authorized access
+    // Revoke access for an authorized person
     function revokeAccess(address patient, address authorizedPerson) public {
         require(msg.sender == patient, "Only the patient can revoke access");
 
@@ -69,7 +78,8 @@ contract PatientRecords {
             }
         }
 
-        emit AccessRevoked(patient, authorizedPerson); // Emit event on access revocation
+        // Emit an event to log the revocation
+        emit AccessRevoked(patient, authorizedPerson);
     }
 
     // Check if an address is authorized to access a patient's record
@@ -84,20 +94,28 @@ contract PatientRecords {
     }
 
     // View a patient's record if authorized
-    function viewRecord(address patientAddress) public onlyOwnerOrAuthorized(patientAddress) returns (string memory name, uint age, string memory diagnosis, string memory treatment) {
+    function viewRecord(address patientAddress) public view onlyOwnerOrAuthorized(patientAddress) returns (string memory name, uint age, string memory diagnosis, string memory treatment) {
         require(patientRecords[patientAddress].exists, "Record does not exist");
 
+        // Retrieve the patient's record
         PatientRecord memory record = patientRecords[patientAddress];
-        emit RecordViewed(msg.sender, patientAddress); // Emit event on record view
+
+        // Emit an event to log the record view
+        emit RecordViewed(msg.sender, patientAddress);
+
+        // Return the patient's record details
         return (record.name, record.age, record.diagnosis, record.treatment);
     }
 
-    // Delete a patient's record
+    // Delete a patient's record (only the patient or owner can delete)
     function deleteRecord(address patientAddress) public {
         require(msg.sender == patientAddress || msg.sender == owner, "Only the patient or owner can delete the record");
         require(patientRecords[patientAddress].exists, "Record does not exist");
 
-        delete patientRecords[patientAddress]; // Delete the record
-        emit RecordDeleted(patientAddress); // Emit event on record deletion
+        // Delete the record from the mapping
+        delete patientRecords[patientAddress];
+
+        // Emit an event to log the record deletion
+        emit RecordDeleted(patientAddress);
     }
 }
