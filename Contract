@@ -42,7 +42,7 @@ contract PatientRecords {
         uint age,
         string memory diagnosis,
         string memory treatment
-    ) public {
+    ) public { 
         require(msg.sender == owner, "Only the owner can store records");
 
         // Store the patient's record
