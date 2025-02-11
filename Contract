@@ -14,7 +14,7 @@ contract PatientRecords {
     mapping(address => PatientRecord) private patientRecords;
     // Mapping to store authorized access for each patient
     mapping(address => address[]) private authorizedAccess;
-
+ 
     address public owner;
 
     // Declare events to log key actionS
