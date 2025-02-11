@@ -10,7 +10,6 @@ contract PatientRecords {
         string treatment;
         bool exists; // Flag to check if the record exists
     }
-
     // Mapping to store patient records by their address
     mapping(address => PatientRecord) private patientRecords;
     // Mapping to store authorized access for each patient
@@ -18,7 +17,7 @@ contract PatientRecords {
 
     address public owner;
 
-    // Declare events to log key actions
+    // Declare events to log key actionS
     event RecordStored(address indexed patientAddress, string name);
     event AccessAuthorized(address indexed patientAddress, address indexed authorizedPerson);
     event AccessRevoked(address indexed patientAddress, address indexed revokedPerson);
