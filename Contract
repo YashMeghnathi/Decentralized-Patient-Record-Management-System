@@ -25,7 +25,7 @@ contract PatientRecords {
     event RecordDeleted(address indexed patientAddress);
 
     // Set the contract owner to the address that deploys the contract
-    constructor() {
+    constructor() { 
         owner = msg.sender; // The contract deployer is the owner
     }
 
