@@ -22,7 +22,7 @@ contract PatientRecords {
     event AccessAuthorized(address indexed patientAddress, address indexed authorizedPerson);
     event AccessRevoked(address indexed patientAddress, address indexed revokedPerson);
     event RecordViewed(address indexed viewer, address indexed patientAddress);
-    event RecordDeleted(address indexed patientAddress); 
+    event RecordDeleted(address indexed patientAddress);  
 
     // Set the contract owner to the address that deploys the contract
     constructor() { 
