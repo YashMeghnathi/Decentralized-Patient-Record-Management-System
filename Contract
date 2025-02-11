@@ -105,7 +105,7 @@ contract PatientRecords {
          // Return the patient's record details
         return (record.name, record.age, record.diagnosis, record.treatment);
     }
-// Delete a patient's record (only the patient or owner can delete)
+// Delete a patient's record (only the patient or owner can delete) 
     function deleteRecord(address patientAddress) public {
         require(msg.sender == patientAddress || msg.sender == owner, "Only the patient or owner can delete the record");
         require(patientRecords[patientAddress].exists, "Record does not exist");
