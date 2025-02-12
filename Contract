@@ -99,7 +99,7 @@ contract PatientRecords {
       // Retrieve the patient's record
         PatientRecord memory record = patientRecords[patientAddress];
 
-        // Emit an event to log the record view
+        // Emit an event to log the record view 
         emit RecordViewed(msg.sender, patientAddress);
 
          // Return the patient's record details
