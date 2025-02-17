@@ -15,7 +15,7 @@ contract PatientRecords {
     // Mapping to store authorized access for each patient
     mapping(address => address[]) private authorizedAccess;
  
-    address public owner;
+    address public owner;  
  
     // Declare events to log key actionS
     event RecordStored(address indexed patientAddress, string name);
