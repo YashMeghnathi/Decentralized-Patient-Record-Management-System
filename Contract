@@ -117,3 +117,4 @@ contract PatientRecords {
         emit RecordDeleted(patientAddress);
     }
 }
+ 
