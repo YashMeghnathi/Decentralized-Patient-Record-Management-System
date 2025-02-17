@@ -12,7 +12,7 @@ contract PatientRecords {
     }
     // Mapping to store patient records by their address
     mapping(address => PatientRecord) private patientRecords;
-    // Mapping to store authorized access for each patient
+    // Mapping to store authorized access for each patient 
     mapping(address => address[]) private authorizedAccess;
  
     address public owner;  
