@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 contract PatientRecords {
     // Define the structure of a patient record
-    struct PatientRecord {
+    struct PatientRecord { 
         string name; 
         uint age;
         string diagnosis;
